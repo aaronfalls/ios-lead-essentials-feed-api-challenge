@@ -27,10 +27,12 @@ public final class RemoteFeedLoader: FeedLoader {
 					return
 				}
 
-				guard let _ = try? JSONDecoder().decode(Root.self, from: data) else {
+				guard let json = try? JSONDecoder().decode(Root.self, from: data) else {
 					completion(.failure(Error.invalidData))
 					return
 				}
+
+				completion(.success(json.items))
 
 			case .failure:
 				completion(.failure(Error.connectivity))
